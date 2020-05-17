@@ -1,0 +1,123 @@
+<div class="todo-content">
+  <h1 class="page-title">House Hold Products</h1>
+  <div class="todo-create">
+    <form #todoForm="ngForm" (ngSubmit)="createTodo(todoForm)" novalidate>
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        placeholder="Type a Product name"
+        required
+        name="Productname"
+        [(ngModel)]="newTodo.title"
+        #title="ngModel"
+      />
+      <input
+        type="text"
+        id="title"
+        class="form-control"
+        placeholder="Type a Serial no"
+        required
+        name="serial_number"
+        [(ngModel)]="newTodo.serial_number"
+        #title="ngModel"
+      />
+      <input
+        type="text"
+        id="model"
+        class="form-control"
+        placeholder="Type a Product Model"
+        required
+        name="model"
+        [(ngModel)]="newTodo.model"
+        #title="ngModel"
+      />
+
+      <input
+        type="text"
+        id="status"
+        class="form-control"
+        placeholder="Type a Product status"
+        required
+        name="status"
+        [(ngModel)]="newTodo.status"
+        #title="ngModel"
+      />
+
+      <button type="submit" class="btn btn-success">Add Product</button>
+
+      <div *ngIf="title.errors && title.dirty" class="alert alert-danger">
+        <div [hidden]="!Productname.errors.required">
+          Product name is required.
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <ul class="todo-list">
+    <li *ngFor="let todo of todos" [class.completed]="todo.completed === true">
+      <div class="todo-row" *ngIf="!editing || editingTodo.id != todo.id">
+        <a class="todo-completed" (click)="toggleCompleted(todo)">
+          <i class="material-icons toggle-completed-checkbox"></i>
+        </a>
+        <span class="todo-title"> {{ todo.title }} </span>
+        <br />
+        <span> Model : {{ todo.model }} </span><br />
+        <span> Serial Number : {{ todo.serial_number }} </span>
+
+        <span class="todo-content .edit-actions">
+          Status: {{ todo.status }}
+        </span>
+
+        <span class="todo-actions">
+          <a (click)="editTodo(todo)">
+            <i class="material-icons edit">edit</i>
+          </a>
+          <a (click)="deleteTodo(todo.id)">
+            <i class="material-icons delete">clear</i>
+          </a>
+        </span>
+      </div>
+
+      <div class="todo-edit" *ngIf="editing && editingTodo.id === todo.id">
+        Product name
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Type a Product name"
+          [(ngModel)]="editingTodo.title"
+          required
+        />
+        <br />
+        Model
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Type a Product model"
+          [(ngModel)]="editingTodo.model"
+          required
+        />
+        <br />
+        Status
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Type a Product status"
+          [(ngModel)]="editingTodo.status"
+          required
+        />
+        <span class="edit-actions">
+          <a (click)="updateTodo(editingTodo)">
+            <i class="material-icons">done</i>
+          </a>
+          <a (click)="clearEditing()">
+            <i class="material-icons">clear</i>
+          </a>
+        </span>
+      </div>
+    </li>
+  </ul>
+  <div class="no-todos" *ngIf="todos && todos.length == 0">
+    <p>No Product Found!</p>
+  </div>
+</div>
